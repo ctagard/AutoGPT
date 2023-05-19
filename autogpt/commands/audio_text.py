@@ -52,7 +52,14 @@ def read_audio(audio: bytes) -> str:
         raise ValueError(
             "You need to set your Hugging Face API token in the config file."
         )
+    response = requests.post(
+        api_url,
+        headers=headers,
+        data=audio,
+    )
 
+    text = json.loads(response.content.decode("utf-8"))["text"]
+    return f"The audio says: {text}"
     response = requests.post(
         api_url,
         headers=headers,
